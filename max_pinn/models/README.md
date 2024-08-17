@@ -1,0 +1,1 @@
+This folder contains the models to train the PINNs model using MAX. 

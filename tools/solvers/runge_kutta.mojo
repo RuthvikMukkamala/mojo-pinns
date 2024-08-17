@@ -38,17 +38,18 @@ struct RungeKutta:
             self.q = int(jnp.ceil(0.5 * jnp.log(jnp.finfo(self.dtype).eps) / jnp.log(self.dt)))
         
     
-    # fn load_weights(inout self, data_file: PythonObject, q: Int) raises -> PythonObject:
+    fn load_weights(inout self, data_file: PythonObject, q: Int) raises -> PythonObject:
         
-    #     var jnp = Python.import_module("jax.numpy")
+        var jnp = Python.import_module("jax.numpy")
         
-        
-    #     # var weights = jnp.reshape(data_file[0 : q**2 + q], (q + 1, q)).astype(self.dtype)
+        var weights = jnp.reshape(data_file[0 : q**2 + q], (q + 1, q)).astype(self.dtype)
 
-
-
-    #     return weights
+        weights = jmojo.use_file_dtype(self.dtype)
         
+
+        return weights
+        
+    
 
     
 

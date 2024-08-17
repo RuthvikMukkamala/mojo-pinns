@@ -9,4 +9,5 @@ fn use_jnp_dtype(dtype: String) raises -> PythonObject:
     var jnp = Python.import_module("jax.numpy")
     return jnp.dtype(dtype)
 
+fn use_file_dtype(dtype: String) raises -> PythonObject:
 
