@@ -2,7 +2,6 @@ from collections.dict import Dict
 
 struct LossFunctions:
 
-    # Sum of Squared Errors (SSE)
     fn sse(loss: Float32, preds: Dict[String, PythonObject], target: Optional[Dict[String, PythonObject]] = None, keys: Optional[List[String]] = None, mid: Optional[Int] = None) -> Float32:
         let jnp = JaxNumPy().import_jax_numpy()
 
@@ -18,7 +17,6 @@ struct LossFunctions:
                 loss = loss + jnp.sum(jnp.square(preds[key] - target.get_value()[key]))
         return loss
 
-    # Mean Squared Error (MSE)
     fn mse(loss: Float32, preds: Dict[String, PythonObject], target: Optional[Dict[String, PythonObject]] = None, keys: Optional[List[String]] = None, mid: Optional[Int] = None) -> Float32:
         let jnp = JaxNumPy().import_jax_numpy()
 
@@ -34,7 +32,6 @@ struct LossFunctions:
                 loss = loss + jnp.mean(jnp.square(preds[key] - target.get_value()[key]))
         return loss
 
-    # Relative L2 Error
     fn relative_l2_error(preds: PythonObject, target: PythonObject) -> Float32:
         let jnp = JaxNumPy().import_jax_numpy()
         return jnp.sqrt(jnp.mean(jnp.square(preds - target)) / jnp.mean(jnp.square(target)))
@@ -42,7 +39,6 @@ struct LossFunctions:
 
 struct ModelFunctions:
 
-    # Fix extra variables for optimization purposes
     fn fix_extra_variables(trainable_variables: Dict[String, PythonObject], extra_variables: Optional[Dict[String, PythonObject]] = None) -> (Dict[String, PythonObject], Optional[Dict[String, PythonObject]]):
         if extra_variables.is_none():
             return (trainable_variables, None)
@@ -54,7 +50,6 @@ struct ModelFunctions:
             trainable_variables[key] = variable
         return (trainable_variables, extra_variables_dict)
 
-    # Make model functional
     fn make_functional(net: PythonObject, params: PythonObject, n_dim: Int, discrete: Bool, output_fn: Optional[PythonObject] = None) -> PythonObject:
         def _execute_model(net: PythonObject, params: PythonObject, inputs: List[PythonObject], time: PythonObject, output_c: Optional[PythonObject] = None) -> PythonObject:
             outputs_dict = net(params, inputs, time)
